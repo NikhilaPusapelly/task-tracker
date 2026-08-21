@@ -13,6 +13,17 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    // =========================
+    // THEME
+    // =========================
+    const [darkMode, setDarkMode] = useState(() => {
+        return localStorage.getItem("theme") === "dark";
+    });
+
+    useEffect(() => {
+        localStorage.setItem("theme", darkMode ? "dark" : "light");
+    }, [darkMode]);
+
     // Create / Edit form
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -36,9 +47,9 @@ function Dashboard() {
         completionPercentage: 0
     });
 
-    // -------------------------
-    // Fetch Tasks
-    // -------------------------
+    // =========================
+    // FETCH TASKS
+    // =========================
     const fetchTasks = async () => {
         try {
             setLoading(true);
@@ -61,9 +72,9 @@ function Dashboard() {
         }
     };
 
-    // -------------------------
-    // Fetch Analytics
-    // -------------------------
+    // =========================
+    // FETCH ANALYTICS
+    // =========================
     const fetchAnalytics = async () => {
         try {
             const response = await api.get("/tasks/analytics", {
@@ -84,14 +95,17 @@ function Dashboard() {
         }
     };
 
+    // =========================
+    // LOAD DATA
+    // =========================
     useEffect(() => {
         fetchTasks();
         fetchAnalytics();
     }, []);
 
-    // -------------------------
-    // Create / Update Task
-    // -------------------------
+    // =========================
+    // CREATE / UPDATE TASK
+    // =========================
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -127,6 +141,7 @@ function Dashboard() {
             }
 
             clearForm();
+
             await fetchTasks();
             await fetchAnalytics();
 
@@ -138,9 +153,9 @@ function Dashboard() {
         }
     };
 
-    // -------------------------
-    // Clear Form
-    // -------------------------
+    // =========================
+    // CLEAR FORM
+    // =========================
     const clearForm = () => {
         setTitle("");
         setDescription("");
@@ -151,11 +166,12 @@ function Dashboard() {
         setError("");
     };
 
-    // -------------------------
-    // Edit Task
-    // -------------------------
+    // =========================
+    // EDIT TASK
+    // =========================
     const handleEdit = (task) => {
         setEditingId(task._id);
+
         setTitle(task.title || "");
         setDescription(task.description || "");
         setStatus(task.status || "Todo");
@@ -173,9 +189,9 @@ function Dashboard() {
         });
     };
 
-    // -------------------------
-    // Delete Task
-    // -------------------------
+    // =========================
+    // DELETE TASK
+    // =========================
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this task?"
@@ -203,9 +219,9 @@ function Dashboard() {
         }
     };
 
-    // -------------------------
-    // Logout
-    // -------------------------
+    // =========================
+    // LOGOUT
+    // =========================
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -213,11 +229,12 @@ function Dashboard() {
         navigate("/login");
     };
 
-    // -------------------------
-    // Search + Filter + Sort
-    // -------------------------
+    // =========================
+    // SEARCH + FILTER + SORT
+    // =========================
     const filteredTasks = tasks
         .filter((task) => {
+
             const matchesSearch =
                 task.title
                     ?.toLowerCase()
@@ -238,7 +255,10 @@ function Dashboard() {
             );
         })
         .sort((a, b) => {
+
+            // Sort by priority
             if (sortBy === "Priority") {
+
                 const priorityOrder = {
                     High: 3,
                     Medium: 2,
@@ -251,6 +271,7 @@ function Dashboard() {
                 );
             }
 
+            // Sort by due date
             if (sortBy === "Due Date") {
                 return (
                     new Date(a.dueDate || 0) -
@@ -258,6 +279,7 @@ function Dashboard() {
                 );
             }
 
+            // Sort alphabetically
             if (sortBy === "Title") {
                 return a.title.localeCompare(b.title);
             }
@@ -265,16 +287,36 @@ function Dashboard() {
             return 0;
         });
 
-    // -------------------------
-    // Render
-    // -------------------------
+    // =========================
+    // RENDER
+    // =========================
     return (
-        <div className="dashboard">
+        <div className={`dashboard ${darkMode ? "dark-mode" : "light-mode"}`}>
 
-            {/* HEADER */}
+            {/* =========================
+                HEADER
+            ========================= */}
+
             <div className="header">
 
-                <h1>Task Tracker Dashboard</h1>
+                <div className="theme-toggle-container">
+                    <span className="theme-icon">☀️</span>
+
+                    <label className="theme-switch">
+                        <input
+                            type="checkbox"
+                            checked={darkMode}
+                            onChange={() => setDarkMode(!darkMode)}
+                        />
+                        <span className="theme-slider"></span>
+                    </label>
+
+                    <span className="theme-icon">🌙</span>
+                </div>
+
+                <h1>
+                    Task Tracker Dashboard
+                </h1>
 
                 <h2>
                     Welcome, {user?.name}!
@@ -293,14 +335,20 @@ function Dashboard() {
 
             </div>
 
-            {/* ERROR */}
+            {/* =========================
+                ERROR MESSAGE
+            ========================= */}
+
             {error && (
-                <div className="section">
+                <div className="section error-section">
                     <p>{error}</p>
                 </div>
             )}
 
-            {/* CREATE / EDIT TASK */}
+            {/* =========================
+                CREATE / EDIT TASK
+            ========================= */}
+
             <div className="section">
 
                 <h2>
@@ -311,8 +359,13 @@ function Dashboard() {
 
                 <form onSubmit={handleSubmit}>
 
+                    {/* Title */}
+
                     <div className="form-group">
-                        <label>Title</label>
+
+                        <label>
+                            Title
+                        </label>
 
                         <input
                             type="text"
@@ -323,10 +376,16 @@ function Dashboard() {
                             placeholder="Enter task title"
                             required
                         />
+
                     </div>
 
+                    {/* Description */}
+
                     <div className="form-group">
-                        <label>Description</label>
+
+                        <label>
+                            Description
+                        </label>
 
                         <textarea
                             value={description}
@@ -335,10 +394,16 @@ function Dashboard() {
                             }
                             placeholder="Enter task description"
                         />
+
                     </div>
 
+                    {/* Status */}
+
                     <div className="form-group">
-                        <label>Status</label>
+
+                        <label>
+                            Status
+                        </label>
 
                         <select
                             value={status}
@@ -346,6 +411,7 @@ function Dashboard() {
                                 setStatus(e.target.value)
                             }
                         >
+
                             <option value="Todo">
                                 Todo
                             </option>
@@ -357,11 +423,18 @@ function Dashboard() {
                             <option value="Done">
                                 Done
                             </option>
+
                         </select>
+
                     </div>
 
+                    {/* Priority */}
+
                     <div className="form-group">
-                        <label>Priority</label>
+
+                        <label>
+                            Priority
+                        </label>
 
                         <select
                             value={priority}
@@ -369,6 +442,7 @@ function Dashboard() {
                                 setPriority(e.target.value)
                             }
                         >
+
                             <option value="Low">
                                 Low
                             </option>
@@ -380,11 +454,18 @@ function Dashboard() {
                             <option value="High">
                                 High
                             </option>
+
                         </select>
+
                     </div>
 
+                    {/* Due Date */}
+
                     <div className="form-group">
-                        <label>Due Date</label>
+
+                        <label>
+                            Due Date
+                        </label>
 
                         <input
                             type="date"
@@ -393,7 +474,10 @@ function Dashboard() {
                                 setDueDate(e.target.value)
                             }
                         />
+
                     </div>
+
+                    {/* Submit */}
 
                     <button
                         type="submit"
@@ -403,6 +487,8 @@ function Dashboard() {
                             ? "Update Task"
                             : "Create Task"}
                     </button>
+
+                    {/* Cancel Edit */}
 
                     {editingId && (
                         <button
@@ -418,45 +504,83 @@ function Dashboard() {
 
             </div>
 
-            {/* ANALYTICS */}
+            {/* =========================
+                ANALYTICS
+            ========================= */}
+
             <div className="section">
 
-                <h2>Task Analytics</h2>
+                <h2>
+                    Task Analytics
+                </h2>
 
                 <div className="analytics">
 
                     <div className="analytics-card">
-                        <h3>Total Tasks</h3>
-                        <p>{analytics.total}</p>
+
+                        <h3>
+                            Total Tasks
+                        </h3>
+
+                        <p>
+                            {analytics.total}
+                        </p>
+
                     </div>
 
                     <div className="analytics-card">
-                        <h3>Completed</h3>
-                        <p>{analytics.completed}</p>
+
+                        <h3>
+                            Completed
+                        </h3>
+
+                        <p>
+                            {analytics.completed}
+                        </p>
+
                     </div>
 
                     <div className="analytics-card">
-                        <h3>Pending</h3>
-                        <p>{analytics.pending}</p>
+
+                        <h3>
+                            Pending
+                        </h3>
+
+                        <p>
+                            {analytics.pending}
+                        </p>
+
                     </div>
 
                     <div className="analytics-card">
-                        <h3>Completion</h3>
+
+                        <h3>
+                            Completion
+                        </h3>
+
                         <p>
                             {analytics.completionPercentage}%
                         </p>
+
                     </div>
 
                 </div>
 
             </div>
 
-            {/* FILTERS */}
+            {/* =========================
+                SEARCH / FILTER / SORT
+            ========================= */}
+
             <div className="section">
 
-                <h2>Find Tasks</h2>
+                <h2>
+                    Find Tasks
+                </h2>
 
                 <div className="filters">
+
+                    {/* Search */}
 
                     <input
                         type="text"
@@ -467,12 +591,15 @@ function Dashboard() {
                         }
                     />
 
+                    {/* Status Filter */}
+
                     <select
                         value={filterStatus}
                         onChange={(e) =>
                             setFilterStatus(e.target.value)
                         }
                     >
+
                         <option value="">
                             All Statuses
                         </option>
@@ -488,7 +615,10 @@ function Dashboard() {
                         <option value="Done">
                             Done
                         </option>
+
                     </select>
+
+                    {/* Priority Filter */}
 
                     <select
                         value={filterPriority}
@@ -496,6 +626,7 @@ function Dashboard() {
                             setFilterPriority(e.target.value)
                         }
                     >
+
                         <option value="">
                             All Priorities
                         </option>
@@ -511,7 +642,10 @@ function Dashboard() {
                         <option value="High">
                             High
                         </option>
+
                     </select>
+
+                    {/* Sorting */}
 
                     <select
                         value={sortBy}
@@ -519,6 +653,7 @@ function Dashboard() {
                             setSortBy(e.target.value)
                         }
                     >
+
                         <option value="">
                             Sort By
                         </option>
@@ -534,9 +669,13 @@ function Dashboard() {
                         <option value="Title">
                             Title
                         </option>
+
                     </select>
 
+                    {/* Clear */}
+
                     <button
+                        type="button"
                         className="clear-btn"
                         onClick={() => {
                             setSearch("");
@@ -552,21 +691,32 @@ function Dashboard() {
 
             </div>
 
-            {/* TASKS */}
+            {/* =========================
+                TASK LIST
+            ========================= */}
+
             <div className="section">
 
-                <h2>Your Tasks</h2>
+                <h2>
+                    Your Tasks
+                </h2>
 
                 {loading && (
-                    <p>Loading tasks...</p>
-                )}
-
-                {!loading && filteredTasks.length === 0 && (
-                    <p>No tasks found.</p>
+                    <p>
+                        Loading tasks...
+                    </p>
                 )}
 
                 {!loading &&
+                    filteredTasks.length === 0 && (
+                        <p>
+                            No tasks found.
+                        </p>
+                    )}
+
+                {!loading &&
                     filteredTasks.map((task) => (
+
                         <div
                             className="task-card"
                             key={task._id}
@@ -580,7 +730,8 @@ function Dashboard() {
                                 <strong>
                                     Description:
                                 </strong>{" "}
-                                {task.description || "No description"}
+                                {task.description ||
+                                    "No description"}
                             </p>
 
                             <p>
@@ -603,10 +754,12 @@ function Dashboard() {
                                 </strong>{" "}
                                 {task.dueDate
                                     ? new Date(
-                                          task.dueDate
-                                      ).toLocaleDateString()
+                                        task.dueDate
+                                    ).toLocaleDateString()
                                     : "No due date"}
                             </p>
+
+                            {/* Edit */}
 
                             <button
                                 className="edit-btn"
@@ -616,6 +769,8 @@ function Dashboard() {
                             >
                                 Edit
                             </button>
+
+                            {/* Delete */}
 
                             <button
                                 className="delete-btn"
@@ -627,6 +782,7 @@ function Dashboard() {
                             </button>
 
                         </div>
+
                     ))}
 
             </div>

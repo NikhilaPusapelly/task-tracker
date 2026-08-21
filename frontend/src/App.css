@@ -2,25 +2,124 @@
     min-height: 100vh;
 }
 
+/* =========================
+   THEME
+   ========================= */
+
 .dashboard {
     width: 100%;
+    min-height: 100vh;
     max-width: 1100px;
     margin: auto;
     padding: 30px 20px;
+    box-sizing: border-box;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* Light Mode */
+
+.light-mode {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+.light-mode .header,
+.light-mode .section {
+    background: #ffffff;
+    color: #1f2937;
+}
+
+.light-mode .section h2 {
+    color: #1f2937;
+}
+
+.light-mode .form-group input,
+.light-mode .form-group textarea,
+.light-mode .form-group select,
+.light-mode .filters input,
+.light-mode .filters select {
+    background: #ffffff;
+    color: #1f2937;
+    border-color: #d1d5db;
+}
+
+.light-mode .task-card {
+    background: #fafafa;
+    color: #1f2937;
+    border-color: #e5e7eb;
+}
+
+.light-mode .task-card p {
+    color: #4b5563;
+}
+
+/* Dark Mode */
+
+.dark-mode {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+.dark-mode .header,
+.dark-mode .section {
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+.dark-mode .section h2 {
+    color: #f8fafc;
+}
+
+.dark-mode .form-group input,
+.dark-mode .form-group textarea,
+.dark-mode .form-group select,
+.dark-mode .filters input,
+.dark-mode .filters select {
+    background: #334155;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group textarea::placeholder,
+.dark-mode .filters input::placeholder {
+    color: #cbd5e1;
+}
+
+.dark-mode .task-card {
+    background: #263449;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+.dark-mode .task-card p {
+    color: #cbd5e1;
+}
+
+.dark-mode .analytics-card {
+    background: #263449;
+}
+
+.dark-mode .analytics-card h3 {
+    color: #60a5fa;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
 .header {
-    background: white;
     padding: 25px;
     border-radius: 14px;
     margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    position: relative;
 }
 
 .header h1 {
     margin: 0 0 10px;
-    color: #1d4ed8;
-    text-align: center;
+    color: #2563eb;
 }
 
 .header h2,
@@ -28,28 +127,120 @@
     text-align: center;
 }
 
+/* =========================
+   THEME TOGGLE
+   ========================= */
+
+.theme-toggle-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-icon {
+    font-size: 18px;
+}
+
+/* Toggle */
+
+.theme-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    display: inline-block;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+
+    background: #cbd5e1;
+    border-radius: 30px;
+
+    transition: 0.3s;
+}
+
+.theme-slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    left: 3px;
+    top: 3px;
+
+    background: white;
+    border-radius: 50%;
+
+    transition: 0.3s;
+}
+
+.theme-switch input:checked + .theme-slider {
+    background: #2563eb;
+}
+
+.theme-switch input:checked + .theme-slider::before {
+    transform: translateX(24px);
+}
+
+/* =========================
+   LOGOUT
+   ========================= */
+
 .logout {
     display: block;
     margin: 15px auto 0;
+
     background: #dc2626;
     color: white;
+
     border: none;
     padding: 10px 20px;
+
     border-radius: 7px;
+    cursor: pointer;
 }
 
+.logout:hover {
+    background: #b91c1c;
+}
+
+/* =========================
+   SECTIONS
+   ========================= */
+
 .section {
-    background: white;
     padding: 25px;
     border-radius: 14px;
     margin-bottom: 20px;
+
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
 }
 
 .section h2 {
     text-align: center;
-    color: #1f2937;
 }
+
+/* =========================
+   FORM
+   ========================= */
 
 .form-group {
     margin-bottom: 15px;
@@ -66,27 +257,60 @@
 .form-group select {
     width: 100%;
     padding: 11px;
+
     border: 1px solid #d1d5db;
     border-radius: 7px;
+
     font-size: 15px;
+    box-sizing: border-box;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border 0.3s ease;
 }
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* =========================
+   BUTTONS
+   ========================= */
 
 .primary-btn {
     background: #2563eb;
     color: white;
+
     border: none;
+
     padding: 11px 20px;
     border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    background: #1d4ed8;
 }
 
 .cancel-btn {
     background: #6b7280;
     color: white;
+
     border: none;
+
     padding: 11px 20px;
     border-radius: 7px;
+
     margin-left: 8px;
+    cursor: pointer;
 }
+
+/* =========================
+   ANALYTICS
+   ========================= */
 
 .analytics {
     display: grid;
@@ -99,6 +323,8 @@
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+
+    transition: background 0.3s ease;
 }
 
 .analytics-card h3 {
@@ -112,6 +338,10 @@
     margin: 8px 0 0;
 }
 
+/* =========================
+   FILTERS
+   ========================= */
+
 .filters {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr auto;
@@ -121,24 +351,39 @@
 .filters input,
 .filters select {
     padding: 10px;
+
     border: 1px solid #d1d5db;
     border-radius: 7px;
+
+    box-sizing: border-box;
 }
 
 .clear-btn {
     background: #6b7280;
     color: white;
+
     border: none;
     border-radius: 7px;
+
     padding: 10px 15px;
+    cursor: pointer;
 }
+
+/* =========================
+   TASK CARD
+   ========================= */
 
 .task-card {
     border: 1px solid #e5e7eb;
     border-radius: 10px;
+
     padding: 20px;
     margin-bottom: 15px;
-    background: #fafafa;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border 0.3s ease;
 }
 
 .task-card h3 {
@@ -146,46 +391,40 @@
     margin-top: 0;
 }
 
-.task-card p {
-    color: #4b5563;
-}
-
 .edit-btn {
     background: #2563eb;
     color: white;
+
     border: none;
+
     padding: 8px 15px;
     border-radius: 6px;
+
+    cursor: pointer;
 }
 
 .delete-btn {
     background: #dc2626;
     color: white;
+
     border: none;
+
     padding: 8px 15px;
     border-radius: 6px;
+
     margin-left: 8px;
+    cursor: pointer;
 }
 
-@media (max-width: 800px) {
-    .analytics {
-        grid-template-columns: repeat(2, 1fr);
-    }
+/* =========================
+   ERROR
+   ========================= */
 
-    .filters {
-        grid-template-columns: 1fr;
-    }
+.error-section {
+    background: #fee2e2 !important;
+    color: #b91c1c !important;
 }
 
-@media (max-width: 500px) {
-    .analytics {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard {
-        padding: 15px;
-    }
-}
 /* =========================
    LOGIN PAGE
    ========================= */
@@ -195,6 +434,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     padding: 20px;
     background: #f3f4f6;
 }
@@ -202,22 +442,30 @@
 .login-card {
     width: 100%;
     max-width: 430px;
+
     background: white;
+
     padding: 40px;
     border-radius: 16px;
+
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 .login-logo {
     width: 55px;
     height: 55px;
+
     margin: 0 auto 15px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border-radius: 50%;
+
     background: #2563eb;
     color: white;
+
     font-size: 28px;
     font-weight: bold;
 }
@@ -225,7 +473,9 @@
 .login-card h1 {
     padding: 0;
     margin: 0;
+
     text-align: center;
+
     font-size: 32px;
     color: #2563eb;
 }
@@ -233,6 +483,7 @@
 .login-subtitle {
     text-align: center;
     color: #6b7280;
+
     margin: 8px 0 30px;
 }
 
@@ -258,28 +509,42 @@
 
 .login-card input {
     width: 100%;
+
     padding: 12px 14px;
+
     border: 1px solid #d1d5db;
     border-radius: 8px;
+
     font-size: 15px;
+    box-sizing: border-box;
 }
 
 .login-card input:focus {
     outline: none;
+
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .login-button {
     width: 100%;
+
     margin: 5px 0 0;
+
     padding: 13px;
+
     background: #2563eb;
     color: white;
+
     border: none;
     border-radius: 8px;
+
     font-size: 16px;
     font-weight: 600;
+
+    cursor: pointer;
 }
 
 .login-button:hover {
@@ -288,41 +553,90 @@
 
 .login-error {
     margin-bottom: 15px;
+
     padding: 10px;
+
     border-radius: 7px;
+
     background: #fee2e2;
     color: #b91c1c;
+
     text-align: center;
+
     font-size: 14px;
 }
 
-@media (max-width: 500px) {
-    .login-card {
-        padding: 25px;
-    }
-}
 .login-success {
     margin-bottom: 15px;
+
     padding: 10px;
+
     border-radius: 7px;
+
     background: #dcfce7;
     color: #15803d;
+
     text-align: center;
+
     font-size: 14px;
 }
 
 .signup-link {
     text-align: center;
+
     margin-top: 20px;
+
     color: #6b7280;
 }
 
 .signup-link a {
     color: #2563eb;
+
     font-weight: 600;
+
     text-decoration: none;
 }
 
 .signup-link a:hover {
     text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 800px) {
+
+    .analytics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .theme-toggle-container {
+        position: static;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .analytics {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard {
+        padding: 15px;
+    }
+
+    .header {
+        padding: 20px 15px;
+    }
+
+    .login-card {
+        padding: 25px;
+    }
 }
