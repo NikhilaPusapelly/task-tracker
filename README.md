@@ -63,10 +63,10 @@ Each task supports:
 ## 3. Filtering and Search
 
 Users can:
-
 - Filter tasks by status
 - Filter tasks by priority
 - Search tasks by title
+- Sort tasks based on selected criteria
 
 ## 4. Analytics
 
@@ -87,6 +87,7 @@ The dashboard provides basic task insights including:
 - Loading states
 - Error states
 - Responsive layout
+- Light and dark mode
 
 ---
 
@@ -350,8 +351,6 @@ MongoDB Atlas is used as the production database.
 # Future Enhancements
 
 - Pagination for task lists
-- Sorting by due date and priority
-- Dark mode
 - Advanced analytics and charts
 - Role-based access control
 - Automated testing
