@@ -106,12 +106,19 @@ function Login() {
 
                 </form>
 
-                <p className="signup-link">
-                    Don't have an account?{" "}
-                    <span onClick={() => navigate("/signup")}>
-                        Sign up
-                    </span>
-                </p>
+                <p style={{ textAlign: "center", marginTop: "18px", color: "#555" }}>
+    Don't have an account?{" "}
+    <span
+        onClick={() => navigate("/signup")}
+        style={{
+            color: "#2563eb",
+            fontWeight: "600",
+            cursor: "pointer"
+        }}
+    >
+        Sign up
+    </span>
+</p>
 
             </div>
 
