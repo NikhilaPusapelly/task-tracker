@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:5000/api"
+    baseURL: "https://task-tracker-backend-i26w.onrender.com/api"
 });
 
 export default api;
